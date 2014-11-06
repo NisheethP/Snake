@@ -1,9 +1,10 @@
+#pragma once
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 
 #include <Windows.h>
 
-enum colour
+enum Colour
 {
 	Gray,
 	White,
@@ -57,13 +58,14 @@ public:
 	}
 };
 
+void ClearScreen();
 int PressAnyKey(const char *prompt = "\n\nPress any key to continue . . .");
 	
-WORD ColourToFore(colour);
-WORD ColourToBack(colour);
+WORD ColourToFore(Colour);
+WORD ColourToBack(Colour);
 
-void SetDefaultColour(colour colour = colour::White);
-void SetColour(Coord crd, int length, colour fore = colour::DarkBlue, colour back = colour::White);
+void SetDefaultColour(Colour pcolour = Colour::White);
+void SetColour(Coord crd, int length, Colour fore = Colour::DarkBlue, Colour back = Colour::White);
 
 int wherex();
 int wherey();

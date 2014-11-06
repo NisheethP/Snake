@@ -4,15 +4,12 @@
 
 #include <vector>
 #include "Peg.h"
-
-typedef std::vector<Peg*> PegVector;
+typedef std::vector<Peg*>
 class Board
 {
 public:
 	Board();
 	~Board();
-private:
-//	PegVector;
 };
 
 #endif

@@ -3,6 +3,8 @@
 
 Wall::Wall()
 {
+	pegColour = Colour::DarkBlue;
+	pegShape = Constants::Wall;
 }
 
 

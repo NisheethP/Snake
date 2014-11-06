@@ -3,6 +3,8 @@
 
 SnakeHead::SnakeHead()
 {
+	pegColour = Colour::Red;
+	pegShape = Constants::Head;
 }
 
 

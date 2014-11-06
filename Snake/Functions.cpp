@@ -103,7 +103,7 @@ int wherey()
 	return csbi.dwCursorPosition.Y;
 }
 
-WORD ColourToFore(colour p_Colour)
+WORD ColourToFore(Colour p_Colour)
 {
 	WORD fore;
 	switch (p_Colour)
@@ -154,7 +154,7 @@ WORD ColourToFore(colour p_Colour)
 
 	return fore;
 }
-WORD ColourToBack(colour p_Colour)
+WORD ColourToBack(Colour p_Colour)
 {
 	WORD back;
 	switch (p_Colour)
@@ -206,19 +206,19 @@ WORD ColourToBack(colour p_Colour)
 	return back;
 }
 
-void SetDefaultColour(colour pcolour)
+void SetDefaultColour(Colour pcolour)
 {
 	WORD fore = ColourToFore(pcolour);
 	SetConsoleTextAttribute(Global::hStdout, fore);
 }
-void SetColour(Coord crd, int length, colour Fore, colour Back)
+void SetColour(Coord crd, int length, Colour Fore, Colour Back)
 {
 	COORD cord;
 	DWORD wrd;
 	cord.X = crd.x;
 	cord.Y = crd.y;
 
-	if (Back == colour::None)
+	if (Back == Colour::None)
 	{
 		WORD fore = ColourToFore(Fore);
 		FillConsoleOutputAttribute(Global::hStdout, fore, length, cord, &wrd);

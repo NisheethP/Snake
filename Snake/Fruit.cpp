@@ -3,6 +3,8 @@
 
 Fruit::Fruit()
 {
+	pegColour = Colour::Yellow;
+	pegShape = Constants::Fruit;
 }
 
 

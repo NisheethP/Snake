@@ -7,7 +7,7 @@ viewDir(Direction::Right),
 tail(TailVector(0))
 {
 	for (int i = tail.size(); i < length; i++)
-		tail.push_back(SnakeTail());
+		
 }
 
 

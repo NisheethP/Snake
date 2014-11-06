@@ -3,14 +3,14 @@
 #define _PEG_H_
 
 #include "Functions.h"
-#include "Constants.h"
+
 class Peg
 {
 protected:
 	Colour pegColour;
 	char pegShape;
 public:
-	Peg(Colour pegColour = Colour::White, char pegShape = Constants::Empty);
+	Peg(Colour pegColour = Colour::White, char pegShape);
 	char get_pegShape();
 	Colour get_pegColour();
 	~Peg();

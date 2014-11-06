@@ -14,19 +14,21 @@ enum Direction
 	Bottom,
 	Left,
 	Right,
-	ERROR
+	Error
 };
 
 class Snake
 {
-public:
-	Snake();
-	~Snake();
 private:
 	int length;
 	Direction viewDir;
 	SnakeHead head;
 	TailVector tail;
+public:
+	Snake();
+	~Snake();
+
+	void incLength();
 };
 
 #endif
