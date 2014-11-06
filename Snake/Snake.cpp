@@ -1,8 +1,12 @@
-#include "headers.h"
+#include "Snake.h"
 
-int main()
+
+Snake::Snake()
 {
-	SetDefaultColour();
-	PressAnyKey();
-	return 0;
+	length = 0;
+}
+
+
+Snake::~Snake()
+{
 }

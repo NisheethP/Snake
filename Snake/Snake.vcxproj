@@ -64,12 +64,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Fruit.cpp" />
     <ClCompile Include="Functions.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Peg.cpp" />
     <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="SnakeHead.cpp" />
+    <ClCompile Include="SnakeTail.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="Fruit.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="headers.h" />
+    <ClInclude Include="Peg.h" />
+    <ClInclude Include="Snake.h" />
+    <ClInclude Include="SnakeHead.h" />
+    <ClInclude Include="SnakeTail.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
