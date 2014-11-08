@@ -233,3 +233,45 @@ void SetColour(Coord crd, int length, Colour Fore, Colour Back)
 	//cout << endl;
 	//cout << wrd;
 }
+
+keyInput getArrowInput()
+{
+	char x = _getch();
+	char y;
+	bool isArrow = false;
+	KeyPress arrowKey;
+
+	//_getch() puts two numbers in the buffer if one of the arrow keys is pressed. One of them is constant
+	//char(224) is the constant part identifying it as an ARROW KEY
+	//The second _getch() won't ever trigger as the number in the buffer will simply be returned to y.
+
+	if (x == (char)224)
+	{
+		y = _getch();
+
+		switch (y)
+		{
+		case 72 /*UP*/:
+			arrowKey = KeyPress::Up;
+			break;
+		case 75 /*LEFT*/:
+			arrowKey = KeyPress::Left;
+			break;
+		case 77 /*RIGHT*/:
+			arrowKey = KeyPress::Right;
+			break;
+		case 80 /*DOWN*/:
+			arrowKey = KeyPress::Down;
+			break;
+		default:
+			arrowKey = KeyPress::Other;
+			break;
+		}
+
+		isArrow = true;
+	}
+	else
+		y = 1;
+
+	return{ y, arrowKey, isArrow };
+}

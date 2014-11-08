@@ -9,6 +9,7 @@ class Peg
 protected:
 	Colour pegColour;
 	char pegShape;
+	//bool isSpawnable;
 public:
 	Peg(Colour pegColour = Colour::White, char pegShape = Constants::Empty);
 	char get_pegShape();

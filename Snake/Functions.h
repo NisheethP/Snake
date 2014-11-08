@@ -3,7 +3,7 @@
 #define _FUNCTION_H_
 
 #include <Windows.h>
-
+#include <conio.h>
 enum Colour
 {
 	Gray,
@@ -22,6 +22,24 @@ enum Colour
 	Yellow,
 	None
 };
+
+enum KeyPress
+{
+	Up,
+	Down,
+	Left,
+	Right,
+	Enter,
+	Other
+};
+struct keyInput
+{
+	int keyNum;
+	KeyPress arrowKey;
+	bool isArrowKey;
+};
+
+keyInput getArrowInput();
 
 struct Global
 {
