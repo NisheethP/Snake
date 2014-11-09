@@ -5,6 +5,7 @@ SnakeTail::SnakeTail()
 {
 	pegColour = Colour::DarkRed;
 	pegShape = Constants::Tail;
+	pegType = PegType::SnakeTailPeg;
 }
 
 

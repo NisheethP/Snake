@@ -5,6 +5,7 @@ Wall::Wall()
 {
 	pegColour = Colour::DarkBlue;
 	pegShape = Constants::Wall;
+	pegType = PegType::WallPeg;
 }
 
 

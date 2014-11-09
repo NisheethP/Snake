@@ -5,6 +5,7 @@ SnakeHead::SnakeHead()
 {
 	pegColour = Colour::Red;
 	pegShape = Constants::Head;
+	pegType = PegType::SnakeHeadPeg;
 }
 
 
