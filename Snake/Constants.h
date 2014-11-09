@@ -11,6 +11,4 @@ struct Constants
 	char static Empty;
 };
 
-
-
 #endif

@@ -10,11 +10,11 @@ typedef std::vector<SnakeTail> TailVector;
 
 enum Direction
 {
-	Top,
-	Bottom,
-	Left,
-	Right,
-	Error
+	Dir_Up,
+	Dir_Bottom,
+	Dir_Left,
+	Dir_Right,
+	Dir_Error
 };
 
 class Snake

@@ -3,7 +3,7 @@
 
 Snake::Snake() : 
 length(3), 
-viewDir(Direction::Right),
+viewDir(Direction::Dir_Right),
 tail(TailVector(0))
 {
 	for (int i = tail.size(); i < length; i++)
