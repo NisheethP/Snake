@@ -252,19 +252,19 @@ keyInput getArrowInput()
 		switch (y)
 		{
 		case 72 /*UP*/:
-			arrowKey = KeyPress::Up;
+			arrowKey = KeyPress::Key_Up;
 			break;
 		case 75 /*LEFT*/:
-			arrowKey = KeyPress::Left;
+			arrowKey = KeyPress::Key_Left;
 			break;
 		case 77 /*RIGHT*/:
-			arrowKey = KeyPress::Right;
+			arrowKey = KeyPress::Key_Right;
 			break;
 		case 80 /*DOWN*/:
-			arrowKey = KeyPress::Down;
+			arrowKey = KeyPress::Key_Down;
 			break;
 		default:
-			arrowKey = KeyPress::Other;
+			arrowKey = KeyPress::Key_Other;
 			break;
 		}
 

@@ -25,12 +25,12 @@ enum Colour
 
 enum KeyPress
 {
-	Up,
-	Down,
-	Left,
-	Right,
-	Enter,
-	Other
+	Key_Up,
+	Key_Down,
+	Key_Left,
+	Key_Right,
+	Key_Enter,
+	Key_Other
 };
 struct keyInput
 {
