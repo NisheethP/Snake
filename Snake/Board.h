@@ -16,6 +16,7 @@ class Board
 {
 private:
 	BoardPeg Pegs;
+	Snake snake;
 	int numFruits;
 	Coord deltaCoord;
 	Coord initCoord;
@@ -24,6 +25,8 @@ private:
 
 	//Returns the number in PEGS vector for given location in row, col
 	int GetPegNum(int col, int row);
+
+	//Sets the type of Peg in given location
 	void setWall(int col, int row);
 	void setSnakeTail(int col, int row);
 	void setSnakeHead(int col, int row);

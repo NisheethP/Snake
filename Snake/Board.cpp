@@ -36,6 +36,16 @@ Pegs(ROW_NUM*COL_NUM, PegLoc(new Peg, { 0,0 }))
 				setWall(row, col);
 		}
 	}
+
+	/*
+	 * This will spawn the snake on the screen.
+	 * By default, the snake spawn position will be:
+	 * COL/2, ROW/2 for HEAD
+	 * 3 TAILS in negative-X direction (left)
+	 * Thus, it will spawn with looking towards RIGHT 
+	 */
+
+
 }
 
 Board::~Board()
@@ -117,6 +127,7 @@ int Board::GetPegNum(int row, int col)
 		return 0;
 }
 
+//Sets the type of Peg in given location
 void Board::setWall(int row, int col)
 {
 	int num = GetPegNum(row, col);
@@ -128,7 +139,7 @@ void Board::setWall(int row, int col)
 		Pegs[num].first = new Wall();
 	}
 }
-void Board::setSnakeTail(int col, int row)
+void Board::setSnakeTail(int row, int col)
 {
 	int num = GetPegNum(row, col);
 	if (num >= Pegs.size())
@@ -139,7 +150,7 @@ void Board::setSnakeTail(int col, int row)
 		Pegs[num].first = new SnakeTail();
 	}
 }
-void Board::setSnakeHead(int col, int row)
+void Board::setSnakeHead(int row, int col)
 {
 	int num = GetPegNum(row, col);
 	if (num >= Pegs.size())
@@ -150,7 +161,7 @@ void Board::setSnakeHead(int col, int row)
 		Pegs[num].first = new SnakeHead();
 	}
 }
-void Board::setFruit(int col, int row)
+void Board::setFruit(int row, int col)
 {
 	int num = GetPegNum(row, col);
 	if (num >= Pegs.size())
