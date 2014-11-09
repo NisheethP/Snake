@@ -9,6 +9,7 @@
 #include <utility>
 
 typedef std::pair<Peg*,Coord> PegLoc;
+typedef std::pair<Snake, Coord> SnakeLoc;
 typedef std::vector<std::vector<char>> charVector2D;
 typedef std::vector<PegLoc> BoardPeg;
 
@@ -16,7 +17,7 @@ class Board
 {
 private:
 	BoardPeg Pegs;
-	Snake snake;
+	SnakeLoc snake;
 	int numFruits;
 	Coord deltaCoord;
 	Coord initCoord;
@@ -38,6 +39,7 @@ public:
 	void spawnFruit();
 	//Convert on screen coordinates to Array Coordinates or vice-versa
 	Coord convCoords(Coord pCoord, bool isArrayCoord);
+	Coord DirToNum(Direction pDir);
 
 	Coord getDeltaCoord();
 	Coord getInitCoord();

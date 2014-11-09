@@ -15,7 +15,8 @@ Board::Board(Coord pDeltaCoord, Coord pInitCoord):
 deltaCoord(pDeltaCoord),
 initCoord(pInitCoord),
 numFruits(0),
-Pegs(ROW_NUM*COL_NUM, PegLoc(new Peg, { 0,0 }))
+Pegs(ROW_NUM*COL_NUM, PegLoc(new Peg, { 0,0 })),
+snake(SnakeLoc(Snake(), Coord(COL_NUM*0.5, ROW_NUM*0.5)))
 {
 	for (int i = 0; i < ROW_NUM*COL_NUM; i++)
 	{
@@ -171,4 +172,30 @@ void Board::setFruit(int row, int col)
 		delete Pegs[num].first;
 		Pegs[num].first = new Fruit();
 	}
+}
+
+//Converts Direction to change in coordinate
+Coord Board::DirToNum(Direction pDir)
+{
+	Coord rCoord = { 0, 0 };
+	switch (pDir)
+	{
+	case Dir_Right:
+		rCoord.x = 1;
+		break;
+	case Dir_Left:
+		rCoord.x = -1;
+		break;
+	case Dir_Down:
+		rCoord.y = 1;
+		break;
+	case Dir_Up:
+		rCoord.y = -1;
+		break;
+	case Dir_Error:
+	default:
+		break;
+	}
+
+	return rCoord;
 }
