@@ -26,11 +26,16 @@ private:
 	Direction viewDir;
 	SnakeHead head;
 	TailVector tail;
+	//Direction of bend is the direction the snake was going in before the turn
 	BendVector bends;
 
 public:
 	Snake();
 	~Snake();
+
+	int getLength();
+	int getBendNum();
+	Direction getViewDir();
 
 	void incLength();
 	//Adds a bend at [len] distance from the Head and the tail is pointing in [dir] behind the bend

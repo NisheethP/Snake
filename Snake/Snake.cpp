@@ -45,10 +45,25 @@ bool Snake::removeBend()
 
 Bend Snake::getBend(int num)
 {
-	if (num >= bends.size())
+	if (num >= bends.size() )
 	{
-		return bends.at(bends.size() - 1);
+		return bends.back();
 	}
 	else
 		return bends.at(num);
+}
+
+int Snake::getLength()
+{
+	return length;
+}
+
+int Snake::getBendNum()
+{
+	return bends.size();
+}
+
+Direction Snake::getViewDir()
+{
+	return viewDir;
 }

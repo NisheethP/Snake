@@ -11,6 +11,9 @@ using std::cout;
 const int Board::ROW_NUM = 40;
 const int Board::COL_NUM = 60;
 
+//Gives the Direction opposite to current direction
+Direction oppDir(Direction pDir);
+
 Board::Board(Coord pDeltaCoord, Coord pInitCoord):
 deltaCoord(pDeltaCoord),
 initCoord(pInitCoord),
@@ -45,6 +48,8 @@ snake(SnakeLoc(Snake(), Coord(COL_NUM*0.5, ROW_NUM*0.5)))
 	 * 3 TAILS in negative-X direction (left)
 	 * Thus, it will spawn with looking towards RIGHT 
 	 */
+
+	updateSnake();
 
 
 }
@@ -85,18 +90,15 @@ Coord Board::getDeltaCoord()
 	return deltaCoord;
 }
 
-
 Coord Board::getInitCoord()
 {
 	return initCoord;
 }
 
-
 int Board::getNumFruits()
 {
 	return numFruits;
 }
-
 
 void Board::drawBoard()
 {
@@ -198,4 +200,81 @@ Coord Board::DirToNum(Direction pDir)
 	}
 
 	return rCoord;
+}
+
+//Updates the snake on the board
+void Board::updateSnake()
+{
+	setSnakeHead(snake.second.y, snake.second.x);
+	
+	if (snake.first.getBendNum() != 0)
+	{
+		Bend tempBend = snake.first.getBend(0);
+		Coord tailCoord = snake.second;
+		int bendIter = 0;
+		int secLength = 0;
+		for (int i = 0; i < snake.first.getLength(); i++)
+		{
+			tempBend = snake.first.getBend(bendIter);
+
+			if (secLength >= tempBend.first)
+			{
+				if (bendIter < snake.first.getBendNum())
+					bendIter++;
+				secLength = 0;
+			}
+
+			if (bendIter == 0)
+			{
+				tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
+				tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
+			}
+
+			else
+			{
+				tailCoord.x += DirToNum(oppDir(tempBend.second)).x;
+				tailCoord.y += DirToNum(oppDir(tempBend.second)).y;
+			}
+
+			setSnakeTail(tailCoord.y, tailCoord.x);
+			secLength++;
+		}
+	}
+	else
+	{
+		Coord tailCoord = snake.second;
+		for (int i = 0; i < snake.first.getLength(); i++)
+		{			
+			tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
+			tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
+
+			setSnakeTail(tailCoord.y, tailCoord.x);
+		}
+	}
+}
+
+//Gives the Direction opposite to current direction
+Direction oppDir(Direction pDir)
+{
+	Direction rDir;
+	switch (pDir)
+	{
+	case Dir_Right:
+		rDir = Dir_Left;
+		break;
+	case Dir_Left:
+		rDir = Dir_Right;
+		break;
+	case Dir_Down:
+		rDir = Dir_Up;
+		break;
+	case Dir_Up:
+		rDir = Dir_Down;
+		break;
+	case Dir_Error:
+	default:
+		break;
+	}
+
+	return rDir;
 }

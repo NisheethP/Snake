@@ -45,6 +45,9 @@ public:
 	Coord getInitCoord();
 	int getNumFruits();
 	void drawBoard();
+
+	//Updates the snake on the board
+	void updateSnake();
 	
 };
 
