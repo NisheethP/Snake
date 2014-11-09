@@ -1,11 +1,21 @@
 #include "headers.h"
 #include "Constants.h"
 #include "Board.h"
+#include <thread>
+
+void *func();
 int main()
 {
 	SetDefaultColour();
 	Board mainBoard({1,1}, {5,5});
-	mainBoard.drawBoard(); 
+
+	//std::thread snake_board(moveSnake, mainBoard);
+	mainBoard.drawBoard();
+	_getch();
+	moveSnake(mainBoard);
+	mainBoard.drawBoard();
+	
+	
 	PressAnyKey();
 	return 0;
 }
