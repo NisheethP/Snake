@@ -7,6 +7,7 @@
 #include "Snake.h"
 #include "Functions.h"
 #include <utility>
+#include <thread>
 
 typedef std::pair<Peg*,Coord> PegLoc;
 typedef std::pair<Snake, Coord> SnakeLoc;
@@ -24,6 +25,8 @@ private:
 	const static int ROW_NUM;
 	const static int COL_NUM;
 
+	bool isSnakeMoving;
+
 	//Returns the number in PEGS vector for given location in row, col
 	int GetPegNum(int col, int row);
 
@@ -32,6 +35,7 @@ private:
 	void setSnakeTail(int col, int row);
 	void setSnakeHead(int col, int row);
 	void setFruit(int col, int row);
+	void removePeg(int col,int row);
 public:
 	Board(Coord pDeltaCoord, Coord pInitCoord);
 	~Board();
@@ -39,6 +43,7 @@ public:
 	void spawnFruit();
 	//Convert on screen coordinates to Array Coordinates or vice-versa
 	Coord convCoords(Coord pCoord, bool isArrayCoord);
+	//Converts a direction to change of coordinates
 	Coord DirToNum(Direction pDir);
 
 	Coord getDeltaCoord();
@@ -48,6 +53,9 @@ public:
 
 	//Updates the snake on the board
 	void updateSnake();
+
+	//Moves the snake; Friend to make it accessible to both [thread] and [Board]
+	friend void moveSnake(Board& board);
 	
 };
 

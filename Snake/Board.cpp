@@ -1,6 +1,7 @@
-#include "Board.h"
 #include <iostream>
+#include <Windows.h>
 
+#include "Board.h"
 #include "Fruit.h"
 #include "SnakeHead.h"
 #include "SnakeTail.h"
@@ -19,7 +20,8 @@ deltaCoord(pDeltaCoord),
 initCoord(pInitCoord),
 numFruits(0),
 Pegs(ROW_NUM*COL_NUM, PegLoc(new Peg, { 0,0 })),
-snake(SnakeLoc(Snake(), Coord(COL_NUM*0.5, ROW_NUM*0.5)))
+snake(SnakeLoc(Snake(), Coord(COL_NUM*0.5, ROW_NUM*0.5))),
+isSnakeMoving(true)
 {
 	for (int i = 0; i < ROW_NUM*COL_NUM; i++)
 	{
@@ -102,6 +104,7 @@ int Board::getNumFruits()
 
 void Board::drawBoard()
 {
+	updateSnake();
 	Coord curCoord = this->initCoord;
 	int PegNum = 0;
 	for (int colIter= 0; colIter < COL_NUM; colIter++)
@@ -175,6 +178,17 @@ void Board::setFruit(int row, int col)
 		Pegs[num].first = new Fruit();
 	}
 }
+void Board::removePeg(int col, int row)
+{
+	int num = GetPegNum(row, col);
+	if (num >= Pegs.size())
+		cout << "ERROR IN SIZE";
+	else
+	{
+		delete Pegs[num].first;
+		Pegs[num].first = new Peg();
+	}
+}
 
 //Converts Direction to change in coordinate
 Coord Board::DirToNum(Direction pDir)
@@ -206,7 +220,8 @@ Coord Board::DirToNum(Direction pDir)
 void Board::updateSnake()
 {
 	setSnakeHead(snake.second.y, snake.second.x);
-	
+	Coord finalTailCoord = snake.second;
+
 	if (snake.first.getBendNum() != 0)
 	{
 		Bend tempBend = snake.first.getBend(0);
@@ -236,6 +251,7 @@ void Board::updateSnake()
 				tailCoord.y += DirToNum(oppDir(tempBend.second)).y;
 			}
 
+			finalTailCoord = tailCoord;
 			setSnakeTail(tailCoord.y, tailCoord.x);
 			secLength++;
 		}
@@ -247,10 +263,41 @@ void Board::updateSnake()
 		{			
 			tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
 			tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
-
+			finalTailCoord = tailCoord;
 			setSnakeTail(tailCoord.y, tailCoord.x);
 		}
 	}
+
+	if (snake.first.getBendNum() != 0)
+	{
+		finalTailCoord.x += DirToNum(oppDir(snake.first.getBend(snake.first.getBendNum() - 1).second)).x;
+		finalTailCoord.y += DirToNum(oppDir(snake.first.getBend(snake.first.getBendNum() - 1).second)).y;
+	}
+	else
+	{
+		finalTailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
+		finalTailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
+	}
+	
+	int temp = GetPegNum(finalTailCoord.y, finalTailCoord.x);
+	if (Pegs[temp].first->getPegType() == PegType::SnakeTailPeg)
+	{
+		removePeg(finalTailCoord.x, finalTailCoord.y);
+	}
+}
+
+//Moves the Snake
+void moveSnake(Board& board)
+{
+	Coord tempCoord = { 0, 0 };
+	tempCoord.x = board.DirToNum(board.snake.first.getViewDir()).x;
+	tempCoord.y = board.DirToNum(board.snake.first.getViewDir()).y;
+	//while (board.isSnakeMoving)
+	//{
+		//Sleep(1000);
+		board.snake.second.x += tempCoord.x;
+		board.snake.second.y += tempCoord.y;
+	//}
 }
 
 //Gives the Direction opposite to current direction
