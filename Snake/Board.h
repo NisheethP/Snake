@@ -49,13 +49,16 @@ public:
 	Coord getDeltaCoord();
 	Coord getInitCoord();
 	int getNumFruits();
+	bool getIsSnakeMoving();
+
+	//Draws the board on the output on the screen
 	void drawBoard();
 
 	//Updates the snake on the board
 	void updateSnake();
 
 	//Moves the snake; Friend to make it accessible to both [thread] and [Board]
-	friend void moveSnake(Board& board);
+	void moveSnake();
 	
 };
 

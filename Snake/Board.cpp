@@ -6,6 +6,7 @@
 #include "SnakeHead.h"
 #include "SnakeTail.h"
 #include "Wall.h"
+#include <mutex>
 
 using std::cout;
 
@@ -86,7 +87,6 @@ Coord Board::convCoords(Coord pCoord, bool isArrayCoord)
 	return tempCoord;
 }
 
-
 Coord Board::getDeltaCoord()
 {
 	return deltaCoord;
@@ -100,6 +100,11 @@ Coord Board::getInitCoord()
 int Board::getNumFruits()
 {
 	return numFruits;
+}
+
+bool Board::getIsSnakeMoving()
+{
+	return isSnakeMoving;
 }
 
 void Board::drawBoard()
@@ -236,7 +241,6 @@ void Board::updateSnake()
 			{
 				if (bendIter < snake.first.getBendNum())
 					bendIter++;
-				secLength = 0;
 			}
 
 			if (bendIter == 0)
@@ -287,17 +291,18 @@ void Board::updateSnake()
 }
 
 //Moves the Snake
-void moveSnake(Board& board)
+void Board::moveSnake()
 {
 	Coord tempCoord = { 0, 0 };
-	tempCoord.x = board.DirToNum(board.snake.first.getViewDir()).x;
-	tempCoord.y = board.DirToNum(board.snake.first.getViewDir()).y;
-	//while (board.isSnakeMoving)
-	//{
-		//Sleep(1000);
-		board.snake.second.x += tempCoord.x;
-		board.snake.second.y += tempCoord.y;
-	//}
+	tempCoord.x = DirToNum(snake.first.getViewDir()).x;
+	tempCoord.y = DirToNum(snake.first.getViewDir()).y;
+
+	PegType pegType = Pegs[GetPegNum(snake.second.y + tempCoord.y, snake.second.x + tempCoord.x)].first->getPegType();
+	if (pegType == PegType::BasePeg)
+	{
+		snake.second.x += tempCoord.x;
+		snake.second.y += tempCoord.y;
+	}
 }
 
 //Gives the Direction opposite to current direction
