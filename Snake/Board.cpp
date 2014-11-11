@@ -195,6 +195,11 @@ void Board::removePeg(int col, int row)
 	}
 }
 
+void Board::stopSnakeMoving()
+{
+	isSnakeMoving = false;
+}
+
 //Converts Direction to change in coordinate
 Coord Board::DirToNum(Direction pDir)
 {

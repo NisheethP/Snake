@@ -51,6 +51,8 @@ public:
 	int getNumFruits();
 	bool getIsSnakeMoving();
 
+	void stopSnakeMoving();
+
 	//Draws the board on the output on the screen
 	void drawBoard();
 
