@@ -32,14 +32,18 @@ enum KeyPress
 	Key_Enter,
 	Key_Other
 };
-struct keyInput
+
+struct KeyInput
 {
-	int keyNum;
+	char keyNum;
 	KeyPress arrowKey;
 	bool isArrowKey;
 };
 
-keyInput getArrowInput();
+bool keyPress_To_Char(KeyPress key, char& chr);
+bool char_To_KeyPress(KeyPress& key, char chr);
+
+KeyInput getArrowInput();
 
 struct Global
 {

@@ -234,7 +234,7 @@ void SetColour(Coord crd, int length, Colour Fore, Colour Back)
 	//cout << wrd;
 }
 
-keyInput getArrowInput()
+KeyInput getArrowInput()
 {
 	char x = _getch();
 	char y;
@@ -271,7 +271,45 @@ keyInput getArrowInput()
 		isArrow = true;
 	}
 	else
+	{
 		y = 1;
+		arrowKey = Key_Other;
+	}
 
-	return{ y, arrowKey, isArrow };
+	return{ x, arrowKey, isArrow };
+}
+
+bool keyPress_To_Char(KeyPress key, char& chr)
+{
+	switch (key)
+	{
+	case Key_Down:
+	case Key_Up:
+	case Key_Right:
+	case Key_Left:
+		return false;
+	
+	case Key_Enter:
+		chr = char(13);
+		return true;
+		
+	default:
+		return false;
+	}
+
+	return false;
+}
+
+bool char_To_KeyPress(KeyPress& key, char chr)
+{
+	switch (chr)
+	{
+	case 13:
+		key = Key_Enter;
+		return true;
+
+	default:
+		return false;
+	}
+	return false;
 }
