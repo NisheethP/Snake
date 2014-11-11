@@ -10,13 +10,19 @@ using boost::ref;
 void keepSnakeMoving(Board& board);
 
 //Update the board (with frequency of 2.5 Hz) while keepUpdating is true
-void updateScreen(Board& board, bool keepUpdating = true);
+void updateScreen(Board& board, bool& keepUpdating);
 
 //Checks for whether to keep the board updating
 void checkUpdating(bool& isUpdating);
 
+//Get user input in a loop in a separate thread.
+void getUserInput(Board& board, bool& isUpdating, bool& isGettingInput);
+
 //Set if the horizontal-blinking cursor is visible or not
 void ShowConsoleCursor(bool showFlag);
+
+//Terminate the game by setting all loop variables to false, and thus lead the thread to its end after detachment
+void terminateGame(bool& isUpdating, bool& isGettgingInput, Board& board);
 
 int main()
 {
@@ -25,37 +31,28 @@ int main()
 
 	Board mainBoard({1,1}, {5,5});
 	bool isUpdating = true;
+	bool isGettingInput = true;
 
+	boost::thread InputLoop(ref(getUserInput), ref(mainBoard), ref(isUpdating), ref(isGettingInput));
 	boost::thread MoveSnake(ref(keepSnakeMoving), ref(mainBoard));
 	boost::thread BoardUpdate(ref(updateScreen), ref(mainBoard), ref(isUpdating));
-	boost::thread CheckBoardUpdate(checkUpdating, ref(isUpdating));
+		
+	while (true)
+	{
+		Sleep(1000);
+		char x = _getch();
+		if (x == 'q' || x == 'Q')
+		{
+			terminateGame(isUpdating, isGettingInput, mainBoard);
+			break;
+		}
+	}
 
-	MoveSnake.join();
-	BoardUpdate.join();
-	CheckBoardUpdate.join();
+	BoardUpdate.detach();
+	MoveSnake.detach();
+	InputLoop.detach();
 
-	PressAnyKey();
 	return 0;
-}
-
-//Move the snake in block in directio it is facing with frequency of 2.5Hz
-void keepSnakeMoving(Board& board)
-{
-	while (board.getIsSnakeMoving())
-	{
-		Sleep(400);
-		board.moveSnake();
-	}
-}
-
-//Update the board (with frequency of 5 Hz) while keepUpdating is true
-void updateScreen(Board& board, bool keepUpdating)
-{
-	while (keepUpdating)
-	{
-		Sleep(200);
-		board.drawBoard();
-	}
 }
 
 //Set if the horizontal-blinking cursor is visible or not
@@ -68,9 +65,78 @@ void ShowConsoleCursor(bool showFlag)
 	SetConsoleCursorInfo(Global::hStdout, &cursorInfo);
 }
 
-//Checks for whether to keep the board updating
-void checkUpdating(bool& isUpdating)
+//~~~~~~~~~~~~~~~~~~~~~~~~~~
+//SEPARATE THREAD FUNCTIONS
+//~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+//Move the snake in block in directio it is facing with frequency of 2.5Hz
+void keepSnakeMoving(Board& board)
 {
-	_getch();
+	while (board.getIsSnakeMoving())
+	{
+		Sleep(400);
+		board.moveSnake();
+	}
+}
+
+//Update the board (with frequency of 5 Hz) while keepUpdating is true
+void updateScreen(Board& board, bool& keepUpdating)
+{
+	int i = 0;
+	while (keepUpdating)
+	{
+		Sleep(200);
+		board.drawBoard();
+	}
+}
+
+//Get user input in a loop in a separate thread.
+void getUserInput(Board& board, bool& isUpdating, bool& isGettingInput)
+{
+	KeyPress key = Key_Other;
+	KeyInput userInput;
+	while (isGettingInput)
+	{
+		userInput = getArrowInput();
+		
+		if (userInput.isArrowKey)
+		{
+			switch (userInput.arrowKey)
+			{
+			case Key_Up:
+				std::cout << "UP\t";
+				break;
+			case Key_Down:
+				std::cout << "DOWN\t";
+				break;
+			case Key_Right:
+				std::cout << "RIGHT\t";
+				break;
+			case Key_Left:
+				std::cout << "LEFT\t";
+				break;
+			default:
+				break;
+			}
+		}
+
+		else
+		{
+			if (char_To_KeyPress(key, userInput.keyNum))
+			{
+				switch (key)
+				{
+				case Key_Enter:
+					terminateGame(isUpdating, isGettingInput, board);
+				}
+			}		
+		}
+	}	
+}
+
+void terminateGame(bool& isUpdating, bool& isGettgingInput, Board& board)
+{
 	isUpdating = false;
+	isGettgingInput = false;
+	board.stopSnakeMoving();
 }
