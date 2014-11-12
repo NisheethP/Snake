@@ -5,6 +5,7 @@
 #include "SnakeHead.h"
 #include "SnakeTail.h"
 #include <vector>
+#include <deque>
 
 enum Direction
 {
@@ -17,7 +18,7 @@ enum Direction
 
 typedef std::vector<SnakeTail> TailVector;
 typedef std::pair<int, Direction> Bend;
-typedef std::vector<Bend> BendVector;
+typedef std::deque<Bend> BendVector;
 
 class Snake
 {
@@ -35,6 +36,11 @@ public:
 
 	int getLength();
 	int getBendNum();
+
+	//Moves bend number bendNum one backward. Shoudl be done one each movement
+	bool moveBendBack(int bendNum);
+
+	void setViewDir(Direction dir);
 	Direction getViewDir();
 
 	void incLength();

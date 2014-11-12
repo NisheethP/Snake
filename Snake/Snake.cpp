@@ -2,7 +2,7 @@
 
 
 Snake::Snake() : 
-length(3), 
+length(12), 
 viewDir(Direction::Dir_Right),
 tail(TailVector()),
 bends(BendVector())
@@ -37,7 +37,7 @@ bool Snake::removeBend()
 {
 	if (!bends.empty())
 	{
-		bends.pop_back();
+		bends.pop_front();
 		return true;
 	}
 	return false;
@@ -50,7 +50,9 @@ Bend Snake::getBend(int num)
 		return bends.back();
 	}
 	else
-		return bends.at(num);
+	{
+		return bends[num];
+	}
 }
 
 int Snake::getLength()
@@ -66,4 +68,22 @@ int Snake::getBendNum()
 Direction Snake::getViewDir()
 {
 	return viewDir;
+}
+
+void Snake::setViewDir(Direction dir)
+{
+	viewDir = dir;
+}
+
+bool Snake::moveBendBack(int bendNum)
+{
+	if (bendNum >= bends.size())
+		return false;
+	else
+	{
+		bends[bendNum].first += 1;
+		if (bends[bendNum].first > length)
+			removeBend();
+	}
+	return true;	
 }
