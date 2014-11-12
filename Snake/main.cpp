@@ -4,6 +4,9 @@
 #include <boost\thread\thread.hpp>
 #include <boost\ref.hpp>
 
+const int snakeMoveFreq = 1000; //Snake moving frequency in milliseconds
+const int boardUpdFreq = 200; //Board update frequency in milliseconds
+
 using boost::ref;
 
 //Move the snake in block in directio it is facing with frequency of 2.5Hz
@@ -74,7 +77,7 @@ void keepSnakeMoving(Board& board)
 {
 	while (board.getIsSnakeMoving())
 	{
-		Sleep(400);
+		Sleep(snakeMoveFreq);
 		board.moveSnake();
 	}
 }
@@ -85,7 +88,7 @@ void updateScreen(Board& board, bool& keepUpdating)
 	int i = 0;
 	while (keepUpdating)
 	{
-		Sleep(200);
+		Sleep(boardUpdFreq);
 		board.drawBoard();
 	}
 }
@@ -104,16 +107,16 @@ void getUserInput(Board& board, bool& isUpdating, bool& isGettingInput)
 			switch (userInput.arrowKey)
 			{
 			case Key_Up:
-				std::cout << "UP\t";
+				board.changeSnakeDirection(Dir_Up);
 				break;
 			case Key_Down:
-				std::cout << "DOWN\t";
+				board.changeSnakeDirection(Dir_Down);
 				break;
 			case Key_Right:
-				std::cout << "RIGHT\t";
+				board.changeSnakeDirection(Dir_Right);
 				break;
 			case Key_Left:
-				std::cout << "LEFT\t";
+				board.changeSnakeDirection(Dir_Left);
 				break;
 			default:
 				break;
