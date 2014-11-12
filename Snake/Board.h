@@ -62,6 +62,8 @@ public:
 	//Moves the snake; Friend to make it accessible to both [thread] and [Board]
 	void moveSnake();
 	
+	//Changes the direction of motion of snake
+	void changeSnakeDirection(Direction dir);
 };
 
 #endif

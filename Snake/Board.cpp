@@ -236,34 +236,43 @@ void Board::updateSnake()
 	{
 		Bend tempBend = snake.first.getBend(0);
 		Coord tailCoord = snake.second;
-		int bendIter = 0;
-		int secLength = 0;
-		for (int i = 0; i < snake.first.getLength(); i++)
+		int totLength = 0;
+		for (int bendIter = snake.first.getBendNum(); bendIter > 0; bendIter-- )
 		{
-			tempBend = snake.first.getBend(bendIter);
-
-			if (secLength >= tempBend.first)
+			tailCoord = snake.second;
+			tempBend = snake.first.getBend(bendIter - 1);
+			
+			for (int len = totLength; len < tempBend.first; len++)
 			{
-				if (bendIter < snake.first.getBendNum())
-					bendIter++;
-			}
+				if (bendIter == snake.first.getBendNum())
+				{
+					tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
+					tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
+				}
 
-			if (bendIter == 0)
-			{
-				tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
-				tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
-			}
+				else
+				{
+					tailCoord.x += DirToNum(oppDir(tempBend.second)).x;
+					tailCoord.y += DirToNum(oppDir(tempBend.second)).y;
+				}
 
-			else
-			{
-				tailCoord.x += DirToNum(oppDir(tempBend.second)).x;
-				tailCoord.y += DirToNum(oppDir(tempBend.second)).y;
-			}
-
-			finalTailCoord = tailCoord;
-			setSnakeTail(tailCoord.y, tailCoord.x);
-			secLength++;
+				setSnakeTail(tailCoord.y, tailCoord.x);
+				if (len == tempBend.first - 1)
+					totLength += len;
+			}			
 		}
+
+		tempBend = snake.first.getBend(0);
+		int remLen = snake.first.getLength() - tempBend.first;
+
+		for (int i = 0; i < remLen; i++)
+		{
+			tailCoord.x += DirToNum(oppDir(tempBend.second)).x;
+			tailCoord.y += DirToNum(oppDir(tempBend.second)).y;
+			
+			setSnakeTail(tailCoord.y, tailCoord.x);
+		}
+		finalTailCoord = tailCoord;
 	}
 	else
 	{
@@ -279,8 +288,8 @@ void Board::updateSnake()
 
 	if (snake.first.getBendNum() != 0)
 	{
-		finalTailCoord.x += DirToNum(oppDir(snake.first.getBend(snake.first.getBendNum() - 1).second)).x;
-		finalTailCoord.y += DirToNum(oppDir(snake.first.getBend(snake.first.getBendNum() - 1).second)).y;
+		finalTailCoord.x += DirToNum(oppDir(snake.first.getBend(0).second)).x;
+		finalTailCoord.y += DirToNum(oppDir(snake.first.getBend(0).second)).y;
 	}
 	else
 	{
@@ -307,6 +316,21 @@ void Board::moveSnake()
 	{
 		snake.second.x += tempCoord.x;
 		snake.second.y += tempCoord.y;
+	}
+
+	for (int i = 0; i < snake.first.getBendNum(); i++)
+	{
+		snake.first.moveBendBack(i);
+	}
+}
+
+//Changes the direction of motion of snake
+void Board::changeSnakeDirection(Direction dir)
+{
+	if (oppDir(dir) != snake.first.getViewDir() && dir != snake.first.getViewDir())
+	{
+		snake.first.addBend(0, snake.first.getViewDir());
+		snake.first.setViewDir(dir);
 	}
 }
 
