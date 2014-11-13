@@ -5,7 +5,6 @@
 #include "SnakeHead.h"
 #include "SnakeTail.h"
 #include <vector>
-#include <deque>
 
 enum Direction
 {
@@ -18,7 +17,7 @@ enum Direction
 
 typedef std::vector<SnakeTail> TailVector;
 typedef std::pair<int, Direction> Bend;
-typedef std::deque<Bend> BendVector;
+typedef std::vector<Bend> BendVector;
 
 class Snake
 {
@@ -34,14 +33,14 @@ public:
 	Snake();
 	~Snake();
 
-	int getLength();
-	int getBendNum();
+	int getLength() const;
+	int getBendNum() const;
 
 	//Moves bend number bendNum one backward. Shoudl be done one each movement
 	bool moveBendBack(int bendNum);
 
 	void setViewDir(Direction dir);
-	Direction getViewDir();
+	Direction getViewDir() const;
 
 	void incLength();
 	//Adds a bend at [len] distance from the Head and the tail is pointing in [dir] behind the bend
@@ -50,8 +49,11 @@ public:
 	//Removes the last bend in the Snake (can't remove any intermediate bend afterall...)
 	bool removeBend();
 
-	//Gets the [num] bend in the stack by iterating over
-	Bend getBend(int num);
+	//Gets the [num] bend in the dequeue by iterating over
+	Bend getBend(int num) const;
+
+	//Gets the queue that stores the bends in its entirety
+	BendVector& getAllBends();
 };
 
 #endif

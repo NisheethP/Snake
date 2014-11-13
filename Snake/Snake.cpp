@@ -9,6 +9,9 @@ bends(BendVector())
 {
 	for (int i = tail.size(); i < length; i++)
 		tail.push_back(SnakeTail());
+
+	bends.push_back(Bend(6, Dir_Right));
+	bends.push_back(Bend(3, Dir_Up));
 }
 
 Snake::~Snake()
@@ -21,6 +24,7 @@ void Snake::incLength()
 		length++;
 }
 
+//Adds a bend at [len] distance from the Head and the tail is pointing in [dir] behind the bend
 bool Snake::addBend(int len, Direction dir)
 {
 	if (len < length && dir != Dir_Error)
@@ -33,17 +37,27 @@ bool Snake::addBend(int len, Direction dir)
 		return false;
 }
 
+//Removes the last bend in the Snake (can't remove any intermediate bend afterall...)
 bool Snake::removeBend()
 {
-	if (!bends.empty())
+	if (bends.empty())
+		return false;
+
+	BendVector::iterator bendIter = bends.begin();
+	bendIter++;
+	BendVector tempBends;
+	for (bendIter; bendIter != bends.end(); ++bendIter)
 	{
-		bends.pop_front();
-		return true;
+		tempBends.push_back(*bendIter);
 	}
-	return false;
+
+	bends.clear();
+	bends = tempBends;
+	return true;
 }
 
-Bend Snake::getBend(int num)
+//Gets the [num] bend in the dequeue by iterating over
+Bend Snake::getBend(int num) const
 {
 	if (num >= bends.size() )
 	{
@@ -55,17 +69,17 @@ Bend Snake::getBend(int num)
 	}
 }
 
-int Snake::getLength()
+int Snake::getLength() const
 {
 	return length;
 }
 
-int Snake::getBendNum()
+int Snake::getBendNum() const
 {
 	return bends.size();
 }
 
-Direction Snake::getViewDir()
+Direction Snake::getViewDir() const
 {
 	return viewDir;
 }
@@ -75,6 +89,7 @@ void Snake::setViewDir(Direction dir)
 	viewDir = dir;
 }
 
+//Moves bend number bendNum one backward. Shoudl be done one each movement
 bool Snake::moveBendBack(int bendNum)
 {
 	if (bendNum >= bends.size())
@@ -86,4 +101,10 @@ bool Snake::moveBendBack(int bendNum)
 			removeBend();
 	}
 	return true;	
+}
+
+//Gets the queue that stores the bends in its entirety
+BendVector& Snake::getAllBends()
+{
+	return bends;
 }
