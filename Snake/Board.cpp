@@ -87,22 +87,22 @@ Coord Board::convCoords(Coord pCoord, bool isArrayCoord)
 	return tempCoord;
 }
 
-Coord Board::getDeltaCoord()
+Coord Board::getDeltaCoord() const
 {
 	return deltaCoord;
 }
 
-Coord Board::getInitCoord()
+Coord Board::getInitCoord() const
 {
 	return initCoord;
 }
 
-int Board::getNumFruits()
+int Board::getNumFruits() const
 {
 	return numFruits;
 }
 
-bool Board::getIsSnakeMoving()
+bool Board::getIsSnakeMoving() const
 {
 	return isSnakeMoving;
 }
@@ -234,17 +234,17 @@ void Board::updateSnake()
 
 	if (snake.first.getBendNum() != 0)
 	{
-		Bend tempBend = snake.first.getBend(0);
+		Bend tempBend;
 		Coord tailCoord = snake.second;
 		int totLength = 0;
-		for (int bendIter = snake.first.getBendNum(); bendIter > 0; bendIter-- )
+		BendVector::iterator prevBendIter = snake.first.getAllBends().end();
+		for (BendVector::reverse_iterator bendIter = snake.first.getAllBends().rbegin(); bendIter != snake.first.getAllBends().rend(); ++bendIter )
 		{
-			tailCoord = snake.second;
-			tempBend = snake.first.getBend(bendIter - 1);
-			
-			for (int len = totLength; len < tempBend.first; len++)
+			int x = snake.first.getBendNum();
+			int debugTemp = bendIter->first;
+			for (int len = 0; len < debugTemp-totLength; len++)
 			{
-				if (bendIter == snake.first.getBendNum())
+				if (bendIter == snake.first.getAllBends().rbegin())
 				{
 					tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
 					tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
@@ -252,19 +252,20 @@ void Board::updateSnake()
 
 				else
 				{
-					tailCoord.x += DirToNum(oppDir(tempBend.second)).x;
-					tailCoord.y += DirToNum(oppDir(tempBend.second)).y;
+					tailCoord.x += DirToNum(oppDir(prevBendIter->second)).x;
+					tailCoord.y += DirToNum(oppDir(prevBendIter->second)).y;
 				}
 
 				setSnakeTail(tailCoord.y, tailCoord.x);
-				if (len == tempBend.first - 1)
-					totLength += len;
-			}			
+				
+			}		
+			totLength += (bendIter)->first;
+			prevBendIter--;
 		}
 
 		tempBend = snake.first.getBend(0);
-		int remLen = snake.first.getLength() - tempBend.first;
-
+		int remLen = snake.first.getLength() - totLength;
+;
 		for (int i = 0; i < remLen; i++)
 		{
 			tailCoord.x += DirToNum(oppDir(tempBend.second)).x;

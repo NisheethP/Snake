@@ -46,10 +46,10 @@ public:
 	//Converts a direction to change of coordinates
 	Coord DirToNum(Direction pDir);
 
-	Coord getDeltaCoord();
-	Coord getInitCoord();
-	int getNumFruits();
-	bool getIsSnakeMoving();
+	Coord getDeltaCoord() const;
+	Coord getInitCoord() const;
+	int getNumFruits() const;
+	bool getIsSnakeMoving() const;
 
 	void stopSnakeMoving();
 
