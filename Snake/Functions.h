@@ -78,6 +78,46 @@ public:
 	{
 		return (p_Coord.x != this->x) && (p_Coord.y != this->y);
 	}
+	
+	Coord& operator-= (Coord p_Coord)
+	{
+		Coord tempCoord = *this;
+		tempCoord.x -= p_Coord.x;
+		tempCoord.y -= p_Coord.y;
+		*this = tempCoord;
+
+		return *this;
+	}
+
+	Coord& operator+= (Coord p_Coord)
+	{
+		Coord tempCoord = *this;
+		tempCoord.x += p_Coord.x;
+		tempCoord.y += p_Coord.y;
+		*this = tempCoord;
+
+		return *this;
+	}
+
+	Coord& operator+ (Coord p_Coord)
+	{
+		Coord tempCoord = *this;
+		tempCoord.x + p_Coord.x;
+		tempCoord.y + p_Coord.y;
+		*this = tempCoord;
+
+		return *this;
+	}
+
+	Coord operator- (Coord p_Coord)
+	{
+		Coord tempCoord = *this;
+		tempCoord.x - p_Coord.x;
+		tempCoord.y - p_Coord.y;
+		*this = tempCoord;
+
+		return *this;
+	}	
 };
 
 void ClearScreen();
