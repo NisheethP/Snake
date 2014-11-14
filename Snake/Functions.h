@@ -4,6 +4,8 @@
 
 #include <Windows.h>
 #include <conio.h>
+#include "Snake.h"
+
 enum Colour
 {
 	Gray,
@@ -81,40 +83,32 @@ public:
 	
 	Coord& operator-= (Coord p_Coord)
 	{
-		Coord tempCoord = *this;
-		tempCoord.x -= p_Coord.x;
-		tempCoord.y -= p_Coord.y;
-		*this = tempCoord;
-
+		this->x -= p_Coord.x;
+		this->y -= p_Coord.y;
+		
 		return *this;
 	}
 
 	Coord& operator+= (Coord p_Coord)
 	{
-		Coord tempCoord = *this;
-		tempCoord.x += p_Coord.x;
-		tempCoord.y += p_Coord.y;
-		*this = tempCoord;
-
+		this->x += p_Coord.x;
+		this->y += p_Coord.y;
+		
 		return *this;
 	}
 
 	Coord& operator+ (Coord p_Coord)
 	{
-		Coord tempCoord = *this;
-		tempCoord.x + p_Coord.x;
-		tempCoord.y + p_Coord.y;
-		*this = tempCoord;
-
+		this->x += p_Coord.x;
+		this->y += p_Coord.y;
+		
 		return *this;
 	}
 
 	Coord operator- (Coord p_Coord)
 	{
-		Coord tempCoord = *this;
-		tempCoord.x - p_Coord.x;
-		tempCoord.y - p_Coord.y;
-		*this = tempCoord;
+		this->x -= p_Coord.x;
+		this->y -= p_Coord.y;
 
 		return *this;
 	}	
@@ -133,10 +127,7 @@ int wherex();
 int wherey();
 void gotoxy(int column = wherex(), int line = wherey());
 
-//Converts Direction to Change in coordinates
-Coord DirToNum(Direction pDir);
 
-//Gives the Direction opposite to current direction
-Direction oppDir(Direction pDir);
+
 
 #endif
