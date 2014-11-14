@@ -13,9 +13,6 @@ using std::cout;
 const int Board::ROW_NUM = 40;
 const int Board::COL_NUM = 60;
 
-//Gives the Direction opposite to current direction
-Direction oppDir(Direction pDir);
-
 Board::Board(Coord pDeltaCoord, Coord pInitCoord):
 deltaCoord(pDeltaCoord),
 initCoord(pInitCoord),
@@ -200,60 +197,42 @@ void Board::stopSnakeMoving()
 	isSnakeMoving = false;
 }
 
-//Converts Direction to change in coordinate
-Coord Board::DirToNum(Direction pDir)
-{
-	Coord rCoord = { 0, 0 };
-	switch (pDir)
-	{
-	case Dir_Right:
-		rCoord.x = 1;
-		break;
-	case Dir_Left:
-		rCoord.x = -1;
-		break;
-	case Dir_Down:
-		rCoord.y = 1;
-		break;
-	case Dir_Up:
-		rCoord.y = -1;
-		break;
-	case Dir_Error:
-	default:
-		break;
-	}
-
-	return rCoord;
-}
-
 //Updates the snake on the board
 void Board::updateSnake()
 {
 	setSnakeHead(snake.second.y, snake.second.x);
 	Coord finalTailCoord = snake.second;
-
+	/*
 	if (snake.first.getBendNum() != 0)
 	{
 		Bend tempBend;
 		Coord tailCoord = snake.second;
+		Coord delCoord;
 		int totLength = 0;
 		BendVector::iterator prevBendIter = snake.first.getAllBends().end();
 		for (BendVector::reverse_iterator bendIter = snake.first.getAllBends().rbegin(); bendIter != snake.first.getAllBends().rend(); ++bendIter )
 		{
 			int x = snake.first.getBendNum();
-			int debugTemp = bendIter->first;
+			int debugTemp = bendIter->;
 			for (int len = 0; len < debugTemp-totLength; len++)
 			{
+				
 				if (bendIter == snake.first.getAllBends().rbegin())
 				{
-					tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
-					tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
+					delCoord.x = DirToNum(oppDir(snake.first.getViewDir())).x;
+					delCoord.y = DirToNum(oppDir(snake.first.getViewDir())).y;
+
+					tailCoord.x += delCoord.x;
+					tailCoord.y += delCoord.y;
 				}
 
 				else
 				{
-					tailCoord.x += DirToNum(oppDir(prevBendIter->second)).x;
-					tailCoord.y += DirToNum(oppDir(prevBendIter->second)).y;
+					delCoord.x = DirToNum(oppDir(prevBendIter->second)).x;
+					delCoord.y = DirToNum(oppDir(prevBendIter->second)).y;
+
+					tailCoord.x += delCoord.x;
+					tailCoord.y += delCoord.y;
 				}
 
 				setSnakeTail(tailCoord.y, tailCoord.x);
@@ -265,7 +244,6 @@ void Board::updateSnake()
 
 		tempBend = snake.first.getBend(0);
 		int remLen = snake.first.getLength() - totLength;
-;
 		for (int i = 0; i < remLen; i++)
 		{
 			tailCoord.x += DirToNum(oppDir(tempBend.second)).x;
@@ -303,6 +281,7 @@ void Board::updateSnake()
 	{
 		removePeg(finalTailCoord.x, finalTailCoord.y);
 	}
+	*/
 }
 
 //Moves the Snake
@@ -330,9 +309,36 @@ void Board::changeSnakeDirection(Direction dir)
 {
 	if (oppDir(dir) != snake.first.getViewDir() && dir != snake.first.getViewDir())
 	{
-		snake.first.addBend(0, snake.first.getViewDir());
+		//snake.first.addBend(0, snake.first.getViewDir());
 		snake.first.setViewDir(dir);
 	}
+}
+
+
+//Converts Direction to change in coordinate
+Coord DirToNum(Direction pDir)
+{
+	Coord rCoord = { 0, 0 };
+	switch (pDir)
+	{
+	case Dir_Right:
+		rCoord.x = 1;
+		break;
+	case Dir_Left:
+		rCoord.x = -1;
+		break;
+	case Dir_Down:
+		rCoord.y = 1;
+		break;
+	case Dir_Up:
+		rCoord.y = -1;
+		break;
+	case Dir_Error:
+	default:
+		break;
+	}
+
+	return rCoord;
 }
 
 //Gives the Direction opposite to current direction

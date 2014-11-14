@@ -7,12 +7,18 @@
 #include "Snake.h"
 #include "Functions.h"
 #include <utility>
-#include <thread>
 
 typedef std::pair<Peg*,Coord> PegLoc;
 typedef std::pair<Snake, Coord> SnakeLoc;
 typedef std::vector<std::vector<char>> charVector2D;
 typedef std::vector<PegLoc> BoardPeg;
+
+//Converts Direction to Change in coordinates
+Coord DirToNum(Direction pDir);
+
+//Gives the Direction opposite to current direction
+Direction oppDir(Direction pDir);
+
 
 class Board
 {
@@ -43,9 +49,7 @@ public:
 	void spawnFruit();
 	//Convert on screen coordinates to Array Coordinates or vice-versa
 	Coord convCoords(Coord pCoord, bool isArrayCoord);
-	//Converts a direction to change of coordinates
-	Coord DirToNum(Direction pDir);
-
+	
 	Coord getDeltaCoord() const;
 	Coord getInitCoord() const;
 	int getNumFruits() const;
