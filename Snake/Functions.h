@@ -93,4 +93,10 @@ int wherex();
 int wherey();
 void gotoxy(int column = wherex(), int line = wherey());
 
+//Converts Direction to Change in coordinates
+Coord DirToNum(Direction pDir);
+
+//Gives the Direction opposite to current direction
+Direction oppDir(Direction pDir);
+
 #endif

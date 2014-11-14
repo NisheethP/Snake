@@ -1,5 +1,6 @@
 #include "Functions.h"
 #include <iostream>
+#include "Snake.h"
 
 HANDLE Global::hStdin = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE Global::hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -312,4 +313,56 @@ bool char_To_KeyPress(KeyPress& key, char chr)
 		return false;
 	}
 	return false;
+}
+
+//Converts Direction to change in coordinate
+Coord DirToNum(Direction pDir)
+{
+	Coord rCoord = { 0, 0 };
+	switch (pDir)
+	{
+	case Dir_Right:
+		rCoord.x = 1;
+		break;
+	case Dir_Left:
+		rCoord.x = -1;
+		break;
+	case Dir_Down:
+		rCoord.y = 1;
+		break;
+	case Dir_Up:
+		rCoord.y = -1;
+		break;
+	case Dir_Error:
+	default:
+		break;
+	}
+
+	return rCoord;
+}
+
+//Gives the Direction opposite to current direction
+Direction oppDir(Direction pDir)
+{
+	Direction rDir;
+	switch (pDir)
+	{
+	case Dir_Right:
+		rDir = Dir_Left;
+		break;
+	case Dir_Left:
+		rDir = Dir_Right;
+		break;
+	case Dir_Down:
+		rDir = Dir_Up;
+		break;
+	case Dir_Up:
+		rDir = Dir_Down;
+		break;
+	case Dir_Error:
+	default:
+		break;
+	}
+
+	return rDir;
 }
