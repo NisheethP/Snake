@@ -4,7 +4,6 @@
 
 #include <Windows.h>
 #include <conio.h>
-#include "Snake.h"
 
 enum Colour
 {
@@ -126,8 +125,5 @@ void SetColour(Coord crd, int length, Colour fore = Colour::DarkBlue, Colour bac
 int wherex();
 int wherey();
 void gotoxy(int column = wherex(), int line = wherey());
-
-
-
 
 #endif
