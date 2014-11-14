@@ -4,7 +4,9 @@
 
 #include "SnakeHead.h"
 #include "SnakeTail.h"
+#include "Functions.h"
 #include <vector>
+
 
 enum Direction
 {
@@ -15,9 +17,9 @@ enum Direction
 	Dir_Error
 };
 
-typedef std::vector<SnakeTail> TailVector;
-typedef std::pair<int, Direction> Bend;
-typedef std::vector<Bend> BendVector;
+using TailVector = std::vector<SnakeTail>;
+using Bend = std::pair<Coord, Direction>;
+using BendVector = std::vector<Bend>;
 
 class Snake
 {
@@ -43,8 +45,8 @@ public:
 	Direction getViewDir() const;
 
 	void incLength();
-	//Adds a bend at [len] distance from the Head and the tail is pointing in [dir] behind the bend
-	bool addBend(int len, Direction dir);
+	//Adds a bend at [crd] Coordinate
+	bool addBend(Coord crd, Direction dir);
 	
 	//Removes the last bend in the Snake (can't remove any intermediate bend afterall...)
 	bool removeBend();
