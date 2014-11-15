@@ -17,8 +17,20 @@ enum Direction
 	Dir_Error
 };
 
+class Bend
+{
+	public:
+	//Length between two consequtive bends in the tail
+	int secLength;
+	//Change in coordinate of bend with respect to previous bend
+	Coord delCoord;
+
+	Bend(int len = 0, Coord crd = {0,0}) :
+		secLength(len), delCoord(crd)
+	{}
+};
+
 using TailVector = std::vector<SnakeTail>;
-using Bend = std::pair<Coord, Direction>;
 using BendVector = std::vector<Bend>;
 
 class Snake
@@ -46,7 +58,7 @@ public:
 
 	void incLength();
 	//Adds a bend at [crd] Coordinate
-	bool addBend(Coord crd, Direction dir);
+	bool addBend(int Len, Coord crd);
 	
 	//Removes the last bend in the Snake (can't remove any intermediate bend afterall...)
 	bool removeBend();

@@ -9,11 +9,6 @@ bends(BendVector())
 {
 	for (int i = tail.size(); i < length; i++)
 		tail.push_back(SnakeTail());
-
-	bends.push_back(Bend({ 20, 24 }, Dir_Left));
-	bends.push_back(Bend({ 25, 24 }, Dir_Down));
-	bends.push_back(Bend({ 25, 29 }, Dir_Right));
-	viewDir = Dir_Up;
 }
 
 Snake::~Snake()
@@ -27,12 +22,9 @@ void Snake::incLength()
 }
 
 //Adds a bend at [crd] Coordinate
-bool  Snake::addBend(Coord crd, Direction Dir)
+bool  Snake::addBend(int Len, Coord crd)
 {
-	if (Dir == Dir_Error)
-		return false;
-	
-	Bend tempBend(crd, Dir);
+	Bend tempBend(Len, crd);
 	bends.push_back(tempBend);
 	
 	return true;
@@ -93,12 +85,14 @@ void Snake::setViewDir(Direction dir)
 //Moves bend number bendNum one backward. Shoudl be done one each movement
 bool Snake::moveBendBack(int bendNum)
 {
+	/*
 	if (bendNum >= bends.size())
 		return false;
 	else
 	{
 		bends[bendNum].first -= DirToNum(bends[bendNum].second);
 	}
+	*/
 	return true;	
 }
 
