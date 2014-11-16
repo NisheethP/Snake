@@ -77,7 +77,12 @@ public:
 
 	bool operator!= (Coord p_Coord)
 	{
-		return (p_Coord.x != this->x) && (p_Coord.y != this->y);
+		if (p_Coord.x == this->x)
+		{
+			if (p_Coord.y == this->y)
+				return false;
+		}
+		return true;
 	}
 	
 	Coord& operator-= (Coord p_Coord)
