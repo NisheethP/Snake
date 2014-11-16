@@ -192,6 +192,27 @@ void Board::removePeg(int col, int row)
 	}
 }
 
+void Board::setWall(Coord crd)
+{
+	setWall(crd.y, crd.x);
+}
+void Board::setSnakeTail(Coord crd)
+{
+	setSnakeTail(crd.y, crd.x);
+}
+void Board::setSnakeHead(Coord crd)
+{
+	setSnakeHead(crd.y, crd.x);
+}
+void Board::setFruit(Coord crd)
+{
+	setFruit(crd.y, crd.x);
+}
+void Board::removePeg(Coord crd)
+{
+	removePeg(crd.y, crd.x);
+}
+
 void Board::stopSnakeMoving()
 {
 	isSnakeMoving = false;
@@ -201,87 +222,21 @@ void Board::stopSnakeMoving()
 void Board::updateSnake()
 {
 	setSnakeHead(snake.second.y, snake.second.x);
-	Coord finalTailCoord = snake.second;
-	/*
-	if (snake.first.getBendNum() != 0)
-	{
-		Bend tempBend;
-		Coord tailCoord = snake.second;
-		Coord delCoord;
-		int totLength = 0;
-		BendVector::iterator prevBendIter = snake.first.getAllBends().end();
-		for (BendVector::reverse_iterator bendIter = snake.first.getAllBends().rbegin(); bendIter != snake.first.getAllBends().rend(); ++bendIter )
-		{
-			int x = snake.first.getBendNum();
-			int debugTemp = bendIter->;
-			for (int len = 0; len < debugTemp-totLength; len++)
-			{
-				
-				if (bendIter == snake.first.getAllBends().rbegin())
-				{
-					delCoord.x = DirToNum(oppDir(snake.first.getViewDir())).x;
-					delCoord.y = DirToNum(oppDir(snake.first.getViewDir())).y;
-
-					tailCoord.x += delCoord.x;
-					tailCoord.y += delCoord.y;
-				}
-
-				else
-				{
-					delCoord.x = DirToNum(oppDir(prevBendIter->second)).x;
-					delCoord.y = DirToNum(oppDir(prevBendIter->second)).y;
-
-					tailCoord.x += delCoord.x;
-					tailCoord.y += delCoord.y;
-				}
-
-				setSnakeTail(tailCoord.y, tailCoord.x);
-				
-			}		
-			totLength += (bendIter)->first;
-			prevBendIter--;
-		}
-
-		tempBend = snake.first.getBend(0);
-		int remLen = snake.first.getLength() - totLength;
-		for (int i = 0; i < remLen; i++)
-		{
-			tailCoord.x += DirToNum(oppDir(tempBend.second)).x;
-			tailCoord.y += DirToNum(oppDir(tempBend.second)).y;
-			
-			setSnakeTail(tailCoord.y, tailCoord.x);
-		}
-		finalTailCoord = tailCoord;
-	}
-	else
-	{
-		Coord tailCoord = snake.second;
-		for (int i = 0; i < snake.first.getLength(); i++)
-		{			
-			tailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
-			tailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
-			finalTailCoord = tailCoord;
-			setSnakeTail(tailCoord.y, tailCoord.x);
-		}
-	}
-
-	if (snake.first.getBendNum() != 0)
-	{
-		finalTailCoord.x += DirToNum(oppDir(snake.first.getBend(0).second)).x;
-		finalTailCoord.y += DirToNum(oppDir(snake.first.getBend(0).second)).y;
-	}
-	else
-	{
-		finalTailCoord.x += DirToNum(oppDir(snake.first.getViewDir())).x;
-		finalTailCoord.y += DirToNum(oppDir(snake.first.getViewDir())).y;
-	}
 	
-	int temp = GetPegNum(finalTailCoord.y, finalTailCoord.x);
-	if (Pegs[temp].first->getPegType() == PegType::SnakeTailPeg)
+	if (snake.first.getBendNum() > 0)
 	{
-		removePeg(finalTailCoord.x, finalTailCoord.y);
+
 	}
-	*/
+
+	else
+	{
+		Coord tempCoord = snake.second;
+		for (int len = 0; len < snake.first.getLength(); len++)
+		{
+			tempCoord += DirToNum(snake.first.getOppViewDir());
+			setSnakeTail(tempCoord);
+		}
+	}
 }
 
 //Moves the Snake
@@ -292,16 +247,13 @@ void Board::moveSnake()
 	tempCoord.y = DirToNum(snake.first.getViewDir()).y;
 
 	PegType pegType = Pegs[GetPegNum(snake.second.y + tempCoord.y, snake.second.x + tempCoord.x)].first->getPegType();
-	if (pegType == PegType::BasePeg)
+	if (pegType == PegType::BasePeg || pegType == PegType::FruitPeg)
 	{
 		snake.second.x += tempCoord.x;
 		snake.second.y += tempCoord.y;
 	}
 
-	for (int i = 0; i < snake.first.getBendNum(); i++)
-	{
-		snake.first.moveBendBack(i);
-	}
+	snake.first.moveBendBack();
 }
 
 //Changes the direction of motion of snake
@@ -313,7 +265,6 @@ void Board::changeSnakeDirection(Direction dir)
 		snake.first.setViewDir(dir);
 	}
 }
-
 
 //Converts Direction to change in coordinate
 Coord DirToNum(Direction pDir)

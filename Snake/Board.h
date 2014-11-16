@@ -42,6 +42,12 @@ private:
 	void setSnakeHead(int col, int row);
 	void setFruit(int col, int row);
 	void removePeg(int col,int row);
+
+	void setWall(Coord crd);
+	void setSnakeTail(Coord crd);
+	void setSnakeHead(Coord crd);
+	void setFruit(Coord crd);
+	void removePeg(Coord crd);
 public:
 	Board(Coord pDeltaCoord, Coord pInitCoord);
 	~Board();
