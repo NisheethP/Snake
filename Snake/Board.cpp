@@ -10,8 +10,8 @@
 
 using std::cout;
 
-const int Board::ROW_NUM = 40;
-const int Board::COL_NUM = 60;
+const int Board::ROW_NUM = 50;
+const int Board::COL_NUM = 70;
 
 Board::Board(Coord pDeltaCoord, Coord pInitCoord):
 deltaCoord(pDeltaCoord),
@@ -180,7 +180,7 @@ void Board::setFruit(int row, int col)
 		Pegs[num].first = new Fruit();
 	}
 }
-void Board::removePeg(int col, int row)
+void Board::removePeg(int row, int col)
 {
 	int num = GetPegNum(row, col);
 	if (num >= Pegs.size())
@@ -222,6 +222,7 @@ void Board::stopSnakeMoving()
 void Board::updateSnake()
 {
 	setSnakeHead(snake.second.y, snake.second.x);
+	Coord tailEndCoord = snake.second;
 	
 	if (snake.first.getBendNum() > 0)
 	{
@@ -235,7 +236,16 @@ void Board::updateSnake()
 		{
 			tempCoord += DirToNum(snake.first.getOppViewDir());
 			setSnakeTail(tempCoord);
+			tailEndCoord = tempCoord;
 		}
+		tailEndCoord += DirToNum(snake.first.getOppViewDir());
+
+	}
+
+	int tempPegNum = GetPegNum(tailEndCoord.y, tailEndCoord.x);
+	if (Pegs[tempPegNum].first->getPegType() == PegType::SnakeTailPeg)
+	{
+		removePeg(tailEndCoord);
 	}
 }
 
