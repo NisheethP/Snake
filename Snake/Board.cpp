@@ -226,7 +226,20 @@ void Board::updateSnake()
 	
 	if (snake.first.getBendNum() > 0)
 	{
-
+		Coord tempCoord = snake.second;
+		Coord nextBendCoord = snake.second;
+	
+		for (RevBendIter curBend = snake.first.getAllBends().rbegin(); curBend != snake.first.getAllBends().rend(); ++curBend)
+		{
+			nextBendCoord += curBend->delCoord;
+			while (tempCoord != nextBendCoord)
+			{
+				Direction debugBend = curBend->bendDir;
+				tempCoord += DirToNum(debugBend);
+				setSnakeTail(tempCoord);
+			}
+			//tempCoord = curBend->delCoord;
+		}
 	}
 
 	else
