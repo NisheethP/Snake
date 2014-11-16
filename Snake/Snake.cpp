@@ -21,16 +21,17 @@ void Snake::incLength()
 		length++;
 }
 
-//Adds a bend at [crd] Coordinate
-bool  Snake::addBend(int Len, Coord crd)
+//Adds a bend
+bool Snake::addBend(int Len, Coord crd, Direction dir)
 {
-	Bend tempBend(Len, crd);
+	Bend tempBend(Len, crd, dir);
 	bends.push_back(tempBend);
 	
 	return true;
 }
 
 //Removes the last bend in the Snake (can't remove any intermediate bend afterall...)
+//Its the first in the vector itself (EQUIVALENT TO POP_FRONT IN QUEUE)
 bool Snake::removeBend()
 {
 	if (bends.empty())
@@ -82,17 +83,15 @@ void Snake::setViewDir(Direction dir)
 	viewDir = dir;
 }
 
-//Moves bend number bendNum one backward. Shoudl be done one each movement
-bool Snake::moveBendBack(int bendNum)
+//Moves all bends one backward. Shoudl be done one each movement
+bool Snake::moveBendBack()
 {
-	/*
-	if (bendNum >= bends.size())
-		return false;
-	else
+	for (BendIter bend = bends.begin(); bend != bends.end(); ++bend)
 	{
-		bends[bendNum].first -= DirToNum(bends[bendNum].second);
+		bend->totLength++;
+		if (bend->totLength > length)
+			removeBend();
 	}
-	*/
 	return true;	
 }
 

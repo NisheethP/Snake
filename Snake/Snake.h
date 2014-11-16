@@ -20,18 +20,21 @@ enum Direction
 class Bend
 {
 	public:
-	//Length between two consequtive bends in the tail
-	int secLength;
+	//Length from head of snake
+	int totLength;
 	//Change in coordinate of bend with respect to previous bend
 	Coord delCoord;
+	Direction bendDir;
 
-	Bend(int len = 0, Coord crd = {0,0}) :
-		secLength(len), delCoord(crd)
+	Bend(int len = 0, Coord crd = {0,0}, Direction dir = Dir_Right) :
+		totLength(len), delCoord(crd), bendDir(Dir_Right)
 	{}
 };
 
 using TailVector = std::vector<SnakeTail>;
 using BendVector = std::vector<Bend>;
+using BendIter = BendVector::iterator;
+using RevBendIter = BendVector::reverse_iterator;
 
 class Snake
 {
@@ -50,17 +53,18 @@ public:
 	int getLength() const;
 	int getBendNum() const;
 
-	//Moves bend number bendNum one backward. Shoudl be done one each movement
-	bool moveBendBack(int bendNum);
+	//Moves all bends one backward. Shoudl be done one each movement
+	bool moveBendBack();
 
 	void setViewDir(Direction dir);
 	Direction getViewDir() const;
 
 	void incLength();
-	//Adds a bend at [crd] Coordinate
-	bool addBend(int Len, Coord crd);
+	//Adds a bend
+	bool addBend(int Len, Coord crd, Direction dir);
 	
 	//Removes the last bend in the Snake (can't remove any intermediate bend afterall...)
+	//Its the first in the vector itself (EQUIVALENT TO POP_FRONT IN QUEUE)
 	bool removeBend();
 
 	//Gets the [num] bend in the dequeue by iterating over
