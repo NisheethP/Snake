@@ -1,6 +1,13 @@
 #include "Snake.h"
 #include "Board.h"
 
+Bend::Bend(int len, Direction dir) :
+totLength(len), bendDir(dir), delCoord({0,0})
+{
+	delCoord.x = len * DirToNum(dir).x;
+	delCoord.y = len * DirToNum(dir).y;
+}
+
 Snake::Snake() : 
 length(20), 
 viewDir(Direction::Dir_Right),
@@ -9,6 +16,9 @@ bends(BendVector())
 {
 	for (int i = tail.size(); i < length; i++)
 		tail.push_back(SnakeTail());
+
+	bends.push_back(Bend(6, Dir_Left));
+	bends.push_back(Bend(3, Dir_Down));
 }
 
 Snake::~Snake()
@@ -22,9 +32,9 @@ void Snake::incLength()
 }
 
 //Adds a bend
-bool Snake::addBend(int Len, Coord crd, Direction dir)
+bool Snake::addBend(int Len, Direction dir)
 {
-	Bend tempBend(Len, crd, dir);
+	Bend tempBend(Len, dir);
 	bends.push_back(tempBend);
 	
 	return true;

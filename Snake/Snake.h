@@ -26,9 +26,7 @@ class Bend
 	Coord delCoord;
 	Direction bendDir;
 
-	Bend(int len = 0, Coord crd = {0,0}, Direction dir = Dir_Right) :
-		totLength(len), delCoord(crd), bendDir(Dir_Right)
-	{}
+	Bend(int len, Direction dir);
 };
 
 using TailVector = std::vector<SnakeTail>;
@@ -63,7 +61,7 @@ public:
 
 	void incLength();
 	//Adds a bend
-	bool addBend(int Len, Coord crd, Direction dir);
+	bool addBend(int Len, Direction dir);
 	
 	//Removes the last bend in the Snake (can't remove any intermediate bend afterall...)
 	//Its the first in the vector itself (EQUIVALENT TO POP_FRONT IN QUEUE)
