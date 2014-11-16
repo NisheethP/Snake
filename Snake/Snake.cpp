@@ -78,13 +78,18 @@ Direction Snake::getViewDir() const
 	return viewDir;
 }
 
+Direction Snake::getOppViewDir() const
+{
+	return oppDir(viewDir);
+}
+
 void Snake::setViewDir(Direction dir)
 {
 	viewDir = dir;
 }
 
 //Moves all bends one backward. Shoudl be done one each movement
-bool Snake::moveBendBack()
+void Snake::moveBendBack()
 {
 	for (BendIter bend = bends.begin(); bend != bends.end(); ++bend)
 	{
@@ -92,7 +97,6 @@ bool Snake::moveBendBack()
 		if (bend->totLength > length)
 			removeBend();
 	}
-	return true;	
 }
 
 //Gets the queue that stores the bends in its entirety

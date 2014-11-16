@@ -54,10 +54,12 @@ public:
 	int getBendNum() const;
 
 	//Moves all bends one backward. Shoudl be done one each movement
-	bool moveBendBack();
+	void moveBendBack();
 
 	void setViewDir(Direction dir);
+	
 	Direction getViewDir() const;
+	Direction getOppViewDir() const;
 
 	void incLength();
 	//Adds a bend
