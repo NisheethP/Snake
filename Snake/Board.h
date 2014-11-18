@@ -8,17 +8,29 @@
 #include "Functions.h"
 #include <utility>
 
-typedef std::pair<Peg*,Coord> PegLoc;
-typedef std::pair<Snake, Coord> SnakeLoc;
-typedef std::vector<std::vector<char>> charVector2D;
-typedef std::vector<PegLoc> BoardPeg;
+class Bend
+{
+public:
+	//Coordiante of the bend on the board
+	Coord bendCoord;
+	//Direction for the tail to go towards for
+	Direction bendDir;
+};
+
+using PegLoc = std::pair<Peg*, Coord>;
+using SnakeLoc = std::pair<Snake, Coord>;
+using charVector2D = std::vector<std::vector<char>>;
+using BoardPeg = std::vector<PegLoc>;
+
+using BendVector = std::vector<Bend>;
+using BendIter = BendVector::iterator;
+using RevBendIter = BendVector::reverse_iterator;
 
 //Converts Direction to Change in coordinates
 Coord DirToNum(Direction pDir);
 
 //Gives the Direction opposite to current direction
 Direction oppDir(Direction pDir);
-
 
 class Board
 {
@@ -32,6 +44,8 @@ private:
 	const static int COL_NUM;
 
 	bool isSnakeMoving;
+
+	BendVector bends;
 
 	//Returns the number in PEGS vector for given location in row, col
 	int GetPegNum(int col, int row);
@@ -56,6 +70,7 @@ public:
 	//Convert on screen coordinates to Array Coordinates or vice-versa
 	Coord convCoords(Coord pCoord, bool isArrayCoord);
 	
+
 	Coord getDeltaCoord() const;
 	Coord getInitCoord() const;
 	int getNumFruits() const;
@@ -73,7 +88,9 @@ public:
 	void moveSnake();
 	
 	//Changes the direction of motion of snake
-	void changeSnakeDirection(Direction dir);
+	void changeSnakeDirection(Direction dir); 
+
+
 };
 
 #endif

@@ -222,44 +222,6 @@ void Board::stopSnakeMoving()
 void Board::updateSnake()
 {
 	setSnakeHead(snake.second.y, snake.second.x);
-	Coord tailEndCoord = snake.second;
-	
-	if (snake.first.getBendNum() > 0)
-	{
-		Coord tempCoord = snake.second;
-		Coord nextBendCoord = snake.second;
-	
-		for (RevBendIter curBend = snake.first.getAllBends().rbegin(); curBend != snake.first.getAllBends().rend(); ++curBend)
-		{
-			nextBendCoord += curBend->delCoord;
-			while (tempCoord != nextBendCoord)
-			{
-				Direction debugBend = curBend->bendDir;
-				tempCoord += DirToNum(debugBend);
-				setSnakeTail(tempCoord);
-			}
-			//tempCoord = curBend->delCoord;
-		}
-	}
-
-	else
-	{
-		Coord tempCoord = snake.second;
-		for (int len = 0; len < snake.first.getLength(); len++)
-		{
-			tempCoord += DirToNum(snake.first.getOppViewDir());
-			setSnakeTail(tempCoord);
-			tailEndCoord = tempCoord;
-		}
-		tailEndCoord += DirToNum(snake.first.getOppViewDir());
-
-	}
-
-	int tempPegNum = GetPegNum(tailEndCoord.y, tailEndCoord.x);
-	if (Pegs[tempPegNum].first->getPegType() == PegType::SnakeTailPeg)
-	{
-		removePeg(tailEndCoord);
-	}
 }
 
 //Moves the Snake
@@ -275,8 +237,6 @@ void Board::moveSnake()
 		snake.second.x += tempCoord.x;
 		snake.second.y += tempCoord.y;
 	}
-
-	snake.first.moveBendBack();
 }
 
 //Changes the direction of motion of snake

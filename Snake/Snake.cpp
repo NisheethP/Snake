@@ -1,13 +1,6 @@
 #include "Snake.h"
 #include "Board.h"
 
-Bend::Bend(int len, Direction dir) :
-totLength(len), bendDir(dir), delCoord({0,0})
-{
-	delCoord.x = len * DirToNum(dir).x;
-	delCoord.y = len * DirToNum(dir).y;
-}
-
 Snake::Snake() : 
 length(20), 
 viewDir(Direction::Dir_Right),
