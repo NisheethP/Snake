@@ -69,8 +69,6 @@ public:
 	void spawnFruit();
 	//Convert on screen coordinates to Array Coordinates or vice-versa
 	Coord convCoords(Coord pCoord, bool isArrayCoord);
-	
-
 	Coord getDeltaCoord() const;
 	Coord getInitCoord() const;
 	int getNumFruits() const;
@@ -90,7 +88,12 @@ public:
 	//Changes the direction of motion of snake
 	void changeSnakeDirection(Direction dir); 
 
+	//Adds a bend at givben coordinates
+	bool addBend(Coord crd, Direction dir);
 
+	//Remove the last bend (first to be added in vector)
+	//Equivalent to the pop_fornt funciton in a queue, but vector is random accesible and interator safe
+	bool removeBend();
 };
 
 #endif

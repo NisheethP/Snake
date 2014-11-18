@@ -19,7 +19,8 @@ initCoord(pInitCoord),
 numFruits(0),
 Pegs(ROW_NUM*COL_NUM, PegLoc(new Peg, { 0,0 })),
 snake(SnakeLoc(Snake(), Coord(COL_NUM*0.5, ROW_NUM*0.5))),
-isSnakeMoving(true)
+isSnakeMoving(true),
+bends(BendVector())
 {
 	for (int i = 0; i < ROW_NUM*COL_NUM; i++)
 	{
@@ -50,8 +51,6 @@ isSnakeMoving(true)
 	 */
 
 	updateSnake();
-
-
 }
 
 Board::~Board()
@@ -222,6 +221,25 @@ void Board::stopSnakeMoving()
 void Board::updateSnake()
 {
 	setSnakeHead(snake.second.y, snake.second.x);
+	Coord endTailCoord = snake.second;
+
+	if (bends.empty())
+	{
+		Coord tempCoord = snake.second;
+		for (int len = 0; len < snake.first.getLength(); len++)
+		{
+			tempCoord += DirToNum(snake.first.getOppViewDir());
+			setSnakeTail(tempCoord); 
+			endTailCoord = tempCoord;
+		}
+		endTailCoord += DirToNum(snake.first.getOppViewDir());
+	}
+	else
+	{
+
+	}
+
+	removePeg(endTailCoord);
 }
 
 //Moves the Snake
@@ -247,6 +265,37 @@ void Board::changeSnakeDirection(Direction dir)
 		//snake.first.addBend(0, snake.first.getViewDir());
 		snake.first.setViewDir(dir);
 	}
+}
+
+//Adds a bend at the given coordinates
+bool Board::addBend(Coord crd, Direction Dir)
+{
+	if (crd.x < COL_NUM && crd.y < ROW_NUM && crd.x > 0 && crd.y > 0)
+	{
+		bends.push_back({ crd, Dir });
+		return true;
+	}
+	return false;
+}
+
+//Remove the last bend (first to be added in vector)
+//Equivalent to the pop_fornt funciton in a queue, but vector is random accesible and interator safe
+bool Board::removeBend()
+{
+	if (bends.empty())
+		return false;
+
+	BendVector::iterator bendIter = bends.begin();
+	bendIter++;
+	BendVector tempBends;
+	for (bendIter; bendIter != bends.end(); ++bendIter)
+	{
+		tempBends.push_back(*bendIter);
+	}
+
+	bends.clear();
+	bends = tempBends;
+	return true;
 }
 
 //Converts Direction to change in coordinate
