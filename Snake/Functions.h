@@ -103,18 +103,20 @@ public:
 
 	Coord& operator+ (Coord p_Coord)
 	{
-		this->x += p_Coord.x;
-		this->y += p_Coord.y;
-		
-		return *this;
+		Coord tempCoord = *this;
+		tempCoord.x += p_Coord.x;
+		tempCoord.y += p_Coord.y;
+
+		return tempCoord;
 	}
 
 	Coord operator- (Coord p_Coord)
 	{
-		this->x -= p_Coord.x;
-		this->y -= p_Coord.y;
+		Coord tempCoord = *this;
+		tempCoord.x -= p_Coord.x;
+		tempCoord.y -= p_Coord.y;
 
-		return *this;
+		return tempCoord;
 	}	
 };
 
