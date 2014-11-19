@@ -49,7 +49,6 @@ bends(BendVector())
 	 * 3 TAILS in negative-X direction (left)
 	 * Thus, it will spawn with looking towards RIGHT 
 	 */
-
 	updateSnake();
 }
 
@@ -236,7 +235,43 @@ void Board::updateSnake()
 	}
 	else
 	{
+		int bentLen = 0;
+		Coord tempCoord = snake.second;
+		RevBendIter prevBend = bends.rbegin();
+		for (RevBendIter bendIter = bends.rbegin(); bendIter != bends.rend(); ++bendIter)
+		{
+			if (bendIter == bends.rbegin())
+			{
+				while (tempCoord != bendIter->bendCoord)
+				{
+					tempCoord += DirToNum(snake.first.getOppViewDir());
+					setSnakeTail(tempCoord);
+					bentLen++;
+				}
+			}
+			else
+			{
+				Bend debugBend = *bendIter;
+				Bend prevDebugBend = *prevBend;
+				while (tempCoord != debugBend.bendCoord)
+				{
+					tempCoord += DirToNum(prevBend->bendDir);
+					setSnakeTail(tempCoord);
+					bentLen++;
+				}				
+				++prevBend;
+			}
+		}
+		int remLen = snake.first.getLength() - bentLen;
+		tempCoord = bends.at(0).bendCoord;
+		for (int i = 0; i < remLen; i++)
+		{
+			tempCoord += DirToNum(bends.at(0).bendDir);
+			setSnakeTail(tempCoord);
+			endTailCoord = tempCoord;
+		}
 
+		endTailCoord += DirToNum(bends.at(0).bendDir);
 	}
 
 	removePeg(endTailCoord);
@@ -262,7 +297,7 @@ void Board::changeSnakeDirection(Direction dir)
 {
 	if (oppDir(dir) != snake.first.getViewDir() && dir != snake.first.getViewDir())
 	{
-		//snake.first.addBend(0, snake.first.getViewDir());
+		addBend(snake.second, snake.first.getOppViewDir());
 		snake.first.setViewDir(dir);
 	}
 }
